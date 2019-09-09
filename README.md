@@ -1,47 +1,40 @@
-# grafana-import-export
+# Grafana-Import-Export
 
-Simple scripts for import/export dashboards, datasources and alerts to [Grafana](http://grafana.org/)
+Simple script in Python 
 
-Support organizations.
+This one does backup/restore  dashboards, datasources and folders from [Grafana](http://grafana.org/)
 
-Example was taken from https://gist.github.com/crisidev/bd52bdcc7f029be2f295 
+Support organization through of their API Key only.
+
+Inspired in scripts written in Shell Script from [hagen1778](https://github.com/hagen1778/grafana-import-export) 
+
+**This version just works, for the time being, in Linux plataforms**
+
+Written for python version 2.7.x. Come soon, it'll be compatible for python 3.x
 
 ## Dependencies
-**[JQ](https://stedolan.github.io/jq/)** - to process .json
+For install requirements run `pip install -r requirements.txt` as root
 
-## Configuration
-Replace **HOST** and **FILE_DIR** variables at `config.sh` with your own.
-Also fill **ORGS** array with pairs ORGANIZATION:API_KEY.
+Reminder, this script just works in ***Python 2.7.x*** version.
+If you don't have this version in your environment you'll need install it.
 
-## exporter
-Run:
-```
-./exporter.sh
-```
+## Commands
 
-Expected output:
-```
-./exporter.sh
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 21102    0 21102    0     0  53000      0 --:--:-- --:--:-- --:--:-- 53020
+For you use it need passing some arguments for `./config.py`. Below is explained as do it.
 
-```
+Before, you'll need create the **API_KEY** in your Grafana Organization that you wanna make backup.
 
-Look for exported .json dashboards and datasources at **FILE_DIR** path
+For this, following how to do [here](https://grafana.com/docs/http_api/auth/#create-api-token)
 
-## importer
-To import all .json files from **FILE_DIR** to your Grafana:
-```
-./importer.sh
-```
 
-To import only some of them:
-```
-./importer.sh organization/dashboards/dashboard.json organization/datasources/datasource.json
-```
+> ./config.py
+> `usage: config.py [-h] -k KEY -H HOST -d DIRECTORY [-p PROXY] (-b | -r)`
+>   -k --key **API_KEY** of ***Organization*** from Grafana that you wanna make backup/restore
+>    -H --host **HOST** for to make backup/restore
+>    -d --directory **DIRECTORY** where it'll storage yous backup or get your restore
+>    -p --proxy `host:port` Use if your environment has proxy.  
+>    -b Flag for backup panels, datasources and folders
+>   -r Flag for restore every all
 
-To import all for organization:
-```
-./importer.sh organization/dashboards/*.json organization/datasources/*.json
-```
+
+
