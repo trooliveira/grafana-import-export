@@ -28,12 +28,19 @@ For this, following how to do [here](https://grafana.com/docs/http_api/auth/#cre
 
 
 > ./config.py
+> 
 > `usage: config.py [-h] -k KEY -H HOST -d DIRECTORY [-p PROXY] (-b | -r)`
+> 
 >   -k --key **API_KEY** of ***Organization*** from Grafana that you wanna make backup/restore
+> 
 >    -H --host **HOST** for to make backup/restore
+> 
 >    -d --directory **DIRECTORY** where it'll storage yous backup or get your restore
->    -p --proxy `host:port` Use if your environment has proxy.  
+> 
+>    -p --proxy `host:port` Use if your environment has proxy.
+>   
 >    -b Flag for backup panels, datasources and folders
+> 
 >   -r Flag for restore every all
 
 
