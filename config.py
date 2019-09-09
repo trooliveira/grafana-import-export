@@ -4,12 +4,6 @@ from backup import Backup
 from restore import Restore
 import argparse
 
-
-# 1 Alerts
-# 2 Notifications
-# 3 Criar backup de permissoes
-# 4 Confirmar a criacao e links e variaveis dos paineis e dashboards
-
 def main():
 
     argp = argparse.ArgumentParser(description=__doc__,)
