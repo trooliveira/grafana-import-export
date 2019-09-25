@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from backup import Backup 
+from backup import Backup
 from requests import get, post
 from json import loads
 from glob import glob
@@ -30,10 +30,11 @@ class Restore(Backup, object):
             try:
                 request = post(self.folder, headers=self.head, json=data, proxies=self.proxies)
                 post_response = request.json()
-            except:
-                folders = get('{}/search?query={}'.format(self.API,
-                                    quote(data['title'].encode("utf-8"))),
-                                    headers=self.head, proxies=self.proxies)          
+            except ValueError:
+                folders = get('{}/search?query={}'.format(self.API, 
+                quote(data['title'].encode("utf-8"))),
+                headers=self.head, proxies=self.proxies)
+
                 post_response = folders.json()
             data = post_response[0]['id']
 
@@ -63,7 +64,7 @@ class Restore(Backup, object):
                         'templating': data_raw['dashboard']['templating'],
                         'id': '',
                         'uid': ''
-                    }  
+                    }
                 }
 
                 if 'rows' in data_raw['dashboard'].keys():
