@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from backup import Backup 
+from backup import Backup
 from restore import Restore
 import argparse
 

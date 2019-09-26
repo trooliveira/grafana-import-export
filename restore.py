@@ -31,8 +31,7 @@ class Restore(Backup, object):
                 request = post(self.folder, headers=self.head, json=data, proxies=self.proxies)
                 post_response = request.json()
             except ValueError:
-                folders = get('{}/search?query={}'.format(self.API, 
-                quote(data['title'].encode("utf-8"))),
+                folders = get('{}/search?query={}'.format(self.API, quote(data['title'].encode("utf-8"))),
                 headers=self.head, proxies=self.proxies)
 
                 post_response = folders.json()
@@ -72,8 +71,7 @@ class Restore(Backup, object):
                 else:
                     data['dashboard'].update({'panels': data_raw['dashboard']['panels']})
             
-                post('{}/db'.format(self.dashboard),
-                                        headers=self.head, json=data, proxies=self.proxies)
+                post('{}/db'.format(self.dashboard), headers=self.head, json=data, proxies=self.proxies)
 
     def post_all_datasources(self):
         directory = '{}/{}/datasources'.format(self.FILE_DIR,

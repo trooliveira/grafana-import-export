@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from requests import get, post
+from requests import get
 from json import dump
 from os import mkdir, path
 
@@ -33,9 +33,9 @@ class Backup(object):
         return name
 
 
-    def get_folder(self, id):
+    def get_folder(self, id_index):
         
-        folders = get('{}/id/{}'.format(self.folder, id),
+        folders = get('{}/id/{}'.format(self.folder, id_index),
                             headers=self.head, proxies=self.proxies)
         #print(folders.status_code).directo.directoryry
 
@@ -58,8 +58,8 @@ class Backup(object):
             dashboard_stage = get('{}/{}'.format(self.dashboard, dash['uri']),
                                                 headers=self.head, proxies=self.proxies)
             #print(dashboard_stage.status_code)
-            tags = dashboard_stage.json()            
-            
+            tags = dashboard_stage.json()
+
             for item in ['created', 'createdBy', 'updated', 'updatedBy', 'expires', 'version']:
                 del tags['meta'][item]
 

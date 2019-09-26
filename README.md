@@ -7,7 +7,6 @@ This one does backup/restore  dashboards, datasources and folders from [Grafana]
 Support organization through of their API Key only.
 
 Inspired in scripts written in Shell Script from [hagen1778](https://github.com/hagen1778/grafana-import-export) 
-
 **This version just works, for the time being, in Linux plataforms**
 
 Written for python version 2.7.x. Come soon, it'll be compatible for python 3.x
@@ -26,7 +25,6 @@ Before, you'll need create the **API_KEY** in your Grafana Organization that you
 
 For this, following how to do [here](https://grafana.com/docs/http_api/auth/#create-api-token)
 
-
 > ./config.py
 > 
 > `usage: config.py [-h] -k KEY -H HOST -d DIRECTORY [-p PROXY] (-b | -r)`
@@ -42,6 +40,3 @@ For this, following how to do [here](https://grafana.com/docs/http_api/auth/#cre
 >    -b Flag for backup panels, datasources and folders
 > 
 >   -r Flag for restore every all
-
-
-
