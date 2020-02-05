@@ -15,7 +15,7 @@ def main():
                     help='URL Grafana', required=True)
     glb.add_argument('-P', '--port', dest='port', type=str,
                     help='Port URL Grafana', required=True)
-    glb.add_argument('-d', '--dir', dest='directory', type=str,
+    glb.add_argument('-d', '--dir', dest='directory', type=validate_filepath,
                     help='Directory for backup or get restore',
                     required=True)
     glb.add_argument('--proxy', dest='proxy', type=str,
@@ -43,10 +43,10 @@ def main():
 
     args = glb.parse_args()
 
-    try:
+    """ try:
         validate_filepath(args.directory)
     except ValidationError:
-        raise ValidationError, ValueError
+        raise ValidationError, ValueError """
 
     host_port_request = '{}:{}'.format(args.host, args.port)
     try:
