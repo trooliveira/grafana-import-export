@@ -18,7 +18,8 @@ class Backup(object):
 
     def get_organization(self):
 
-        orgs = get('{}/org'.format(self.API), headers=self.head, proxies=self.proxies)
+        orgs = get('{}/org'.format(self.API),
+                   headers=self.head, proxies=self.proxies)
         # print(orgs.status_code)
         org = orgs.json()
         name = org['name']  # .replace('.', '')
@@ -36,7 +37,7 @@ class Backup(object):
 
         folders = get('{}/id/{}'.format(self.folder, id_index),
                       headers=self.head, proxies=self.proxies)
-        # print(folders.status_code).directo.directoryry
+        # print(folders.status_code)
 
         foldering = folders.json()
         name = foldering['title'].replace(' - ', ' ').replace(' ', '-')
@@ -73,8 +74,7 @@ class Backup(object):
             if tags['meta']['folderId'] != 0:
                 self.get_folder(tags['meta']['folderId'])
 
-            with open('{}/{}/dashboards/{}'.format(self.FILE_DIR,
-                                                   Backup.get_organization(self),
+            with open('{}/{}/dashboards/{}'.format(self.FILE_DIR, Backup.get_organization(self),
                                                    '{}.json'.format(tags['meta']['slug'])), 'w') as f:
                 dump(dashboard_stage.json(), f, indent=True)
 
