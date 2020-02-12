@@ -12,16 +12,16 @@ def main():
 
     glb = argparse.ArgumentParser(conflict_handler='resolve')
     glb.add_argument('-H', '--host', dest='host', type=str,
-                    help='URL Grafana', required=True)
+                     help='URL Grafana', required=True)
     glb.add_argument('-P', '--port', dest='port', type=str,
-                    help='Port URL Grafana', required=True)
+                     help='Port URL Grafana', required=True)
     glb.add_argument('-d', '--dir', dest='directory', type=str,
-                    help='Directory for backup or get restore',
-                    required=True)
+                     help='Directory for backup or get restore',
+                     required=True)
     glb.add_argument('--proxy', dest='proxy', type=str,
-                    help='Proxy for requests (host and port)',
-                    default=None, required=False)
-    glb.add_argument('-o','--org', dest='org_name', type=str,
+                     help='Proxy for requests (host and port)',
+                     default=None, required=False)
+    glb.add_argument('-o', '--org', dest='org_name', type=str,
                      help='Org for restore one',
                      default=None, required=False)
 
@@ -37,9 +37,9 @@ def main():
 
     key_usr = glb.add_mutually_exclusive_group(required=True)
     key_usr.add_argument('-k', '--api-key', dest='api_key',
-                     type=str, help='bearer token')
+                         type=str, help='bearer token')
     key_usr.add_argument('-u', '--user', dest='user', type=str,
-                     help='user')
+                         help='user')
 
     glb.add_argument('-p', '--password', dest='passd', type=str,
                      help='password')
@@ -49,7 +49,7 @@ def main():
     try:
         validate_filepath(args.directory)
     except ValidationError:
-        raise ValidationError, ValueError
+        raise ValidationError(ValueError)
 
     host_port_request = '{}:{}'.format(args.host, args.port)
 
@@ -60,7 +60,7 @@ def main():
             user_pass_request = '{}:{}'.format(args.user, args.passd)
             host_request_basic_auth = 'http://{}@{}'.format(user_pass_request, host_port_request)
         except ValueError as e:
-            raise 'It needs password arg', e
+            raise e
 
     org_api = 'api/org'
     orgs_api = 'api/orgs'
@@ -88,7 +88,6 @@ def main():
             org = Organization(directory, None, proxy, None, None,
                                host_request_basic_auth, orgs_api).get_organization()
 
-
     elif args.type is False:
         if args.form is True:
             ''' Organization(directory, host_request, proxy,
@@ -101,7 +100,6 @@ def main():
         elif args.form is False:
             Organization(directory, None, proxy, None, None,
                          host_request_basic_auth, orgs_api).post_organization()
-
 
 
 if __name__ == "__main__":

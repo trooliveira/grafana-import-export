@@ -25,7 +25,7 @@ class Organization(object):
         if self.host_request_basic_auth is None:
             # organization
             # get current
-            org = [ Requests('{}/{}'.format(self.host_request, self.org_api), self.proxy).get_requests() ]
+            org = [Requests('{}/{}'.format(self.host_request, self.org_api), self.proxy).get_requests()]
         else:
             # organization
             # get all
@@ -37,10 +37,9 @@ class Organization(object):
 
         return org_list
 
-
     def post_organization(self):
         # post organization
-        ls = [ name for name in os.listdir(self.directory) if os.path.isdir(os.path.join(self.directory, name)) ]
+        ls = [name for name in os.listdir(self.directory) if os.path.isdir(os.path.join(self.directory, name))]
 
         for dir in ls:
             dir_raw = '{}/{}'.format(self.directory, dir)
@@ -48,7 +47,6 @@ class Organization(object):
             data = {
                 'name': data_raw['name']
             }
-            print(self.host_request_basic_auth,
-                  self.orgs_api, self.proxy, data)
+
             Requests('{}/{}'.format(self.host_request_basic_auth,
                                     self.orgs_api), self.proxy, data).post_requests()
