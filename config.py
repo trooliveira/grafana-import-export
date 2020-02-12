@@ -52,9 +52,10 @@ def main():
         raise ValidationError, ValueError
 
     host_port_request = '{}:{}'.format(args.host, args.port)
-    try:
+
+    if args.user is False:
         host_request = 'http://api_key:{}@{}'.format(args.api_key, host_port_request)
-    except Exception:
+    else:
         try:
             user_pass_request = '{}:{}'.format(args.user, args.passd)
             host_request_basic_auth = 'http://{}@{}'.format(user_pass_request, host_port_request)
@@ -77,27 +78,30 @@ def main():
     if args.type is True:
         if args.form is True:
             org = Organization(directory, host_request, proxy, org_api).get_organization()
-        elif args.form is False:
-            org = Organization(directory, None, proxy, org_api,
-                         host_request_basic_auth, orgs_api).get_organization()
 
-        Datasource(directory, host_request, proxy,
-                   datasource_api, org[0]).get_datasource()
-        Dashboard(directory, host_request, proxy,
-                  dashboard_api, dashboard_search_api,
-                  folder_api, folder_search_api, org[0]).get_dashboard()
+            Datasource(directory, host_request, proxy,
+                       datasource_api, org[0]).get_datasource()
+            Dashboard(directory, host_request, proxy,
+                      dashboard_api, dashboard_search_api,
+                      folder_api, folder_search_api, org[0]).get_dashboard()
+        elif args.form is False:
+            org = Organization(directory, None, proxy, None, None,
+                               host_request_basic_auth, orgs_api).get_organization()
+
+
     elif args.type is False:
         if args.form is True:
-            Organization(directory, host_request, proxy,
-                         org_api, args.org_name).post_organization()
+            ''' Organization(directory, host_request, proxy,
+                         org_api, args.org_name).post_organization() '''
+            Datasource(directory, host_request, proxy,
+                       datasource_api, args.org_name).post_datasource()
+            Dashboard(directory, host_request, proxy,
+                      dashboard_api, dashboard_search_api,
+                      folder_api, folder_search_api, args.org_name).post_dashboard()
         elif args.form is False:
-            Organization(directory, None, proxy, org_api,
+            Organization(directory, None, proxy, None, None,
                          host_request_basic_auth, orgs_api).post_organization()
-        Datasource(directory, host_request, proxy,
-                   datasource_api, args.org_name).post_datasource()
-        Dashboard(directory, host_request, proxy,
-                  dashboard_api, dashboard_search_api,
-                  folder_api, folder_search_api, args.org_name).post_dashboard()
+
 
 
 if __name__ == "__main__":

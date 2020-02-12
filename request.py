@@ -48,9 +48,9 @@ class WriteRead(object):
 
     def read(self):
         if self.type is None:
-            dir = '{}/{}'.format(self.directory, self.name)
+            dir = '{}/{}.json'.format(self.directory, self.name)
         else:
-            dir = '{}/{}/{}/{}'.format(self.directory,
+            dir = '{}/{}/{}/{}.json'.format(self.directory,
                                        self.org, self.type, self.name)
         with open(dir, 'r') as f:
             raw = f.read()

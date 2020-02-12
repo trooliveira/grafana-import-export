@@ -3,6 +3,7 @@
 from request import Requests
 from request import WriteRead
 from request import list_convert
+import os
 import json
 
 
@@ -39,12 +40,15 @@ class Organization(object):
 
     def post_organization(self):
         # post organization
-        dir = '{}/{}'.format(self.directory, self.org_name)
-        files = list_convert(dir)
-        for file in files:
-            data_raw = WriteRead(dir, file).read()
+        ls = [ name for name in os.listdir(self.directory) if os.path.isdir(os.path.join(self.directory, name)) ]
+
+        for dir in ls:
+            dir_raw = '{}/{}'.format(self.directory, dir)
+            data_raw = WriteRead(dir_raw, dir).read()
             data = {
                 'name': data_raw['name']
             }
+            print(self.host_request_basic_auth,
+                  self.orgs_api, self.proxy, data)
             Requests('{}/{}'.format(self.host_request_basic_auth,
                                     self.orgs_api), self.proxy, data).post_requests()
