@@ -51,12 +51,13 @@ class Dashboard(object):
             WriteRead(self.directory, tags['meta']['slug'], tags, self.org_name, 'dashboards').write()
 
     def post_dashboard(self):
-        files = list_convert(self.directory)
+        dir = '{}/{}/dashboards'.format(self.directory, self.org_name)
+        files = list_convert(dir)
         for file in files:
-            data_raw = WriteRead(self.directory, file).read()
+            data_raw = WriteRead(dir, file).read()
             data = {
-                'folderId': Folders(self.directory, self.host_request, self.folder_api,
-                                    self.proxy, None, self.folder_search_api).post_folder(),
+                'folderId': Folders(dir, self.host_request, self.folder_api,
+                                    self.proxy, None, self.org_name, self.folder_search_api).post_folder(),
                 'overwrite': True,
                 'dashboard': {
                     'tags': data_raw['dashboard']['tags'],

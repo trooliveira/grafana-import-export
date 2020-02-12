@@ -29,7 +29,8 @@ class Folders(object):
             WriteRead(self.directory, name, folder, self.org_name, 'folders').write()
 
     def post_folder(self):
-        data = WriteRead(self.directory, file).read()
+        dir = '{}/{}/folders'.format(self.directory, self.org_name)
+        data = WriteRead(dir, file).read()
         try:
             folders = Requests('{}/{}'.format(self.host_request,
                                               self.folder_api), self.proxy, data).post_requests()
@@ -40,9 +41,6 @@ class Folders(object):
                                self.proxy).get_requests()
         folder_id = folders[0]['id'].json()
 
-        if folder_id != 0:
-            id = folder_id
-        else:
-            id = 0
+        id = folder_id if folder_id != 0 else 0
 
         return id

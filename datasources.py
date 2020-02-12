@@ -23,7 +23,8 @@ class Datasource(object):
 
     # post
     def post_datasource(self):
-        files = list_convert(self.directory)
+        dir = '{}/{}/datasources'.format(self.directory, self.org_name)
+        files = list_convert(dir)
         for file in files:
-            data = WriteRead(self.directory, file).read()
+            data = WriteRead(dir, file).read()
             Requests('{}/{}'.format(self.host_request, self.org_api), self.proxy, data).post_requests()

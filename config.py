@@ -21,6 +21,9 @@ def main():
     glb.add_argument('--proxy', dest='proxy', type=str,
                     help='Proxy for requests (host and port)',
                     default=None, required=False)
+    glb.add_argument('-o','--org', dest='org_name', type=str,
+                     help='Org for restore one',
+                     default=None, required=False)
 
     type_group = glb.add_mutually_exclusive_group(required=True)
     type_group.add_argument('--backup', action='store_true', dest='type',
@@ -73,28 +76,28 @@ def main():
 
     if args.type is True:
         if args.form is True:
-            org_name = Organization(directory, host_request, proxy, org_api).get_organization()
+            org = Organization(directory, host_request, proxy, org_api).get_organization()
         elif args.form is False:
-            org_name = Organization(directory, None, proxy, org_api,
+            org = Organization(directory, None, proxy, org_api,
                          host_request_basic_auth, orgs_api).get_organization()
 
         Datasource(directory, host_request, proxy,
-                   datasource_api, org_name[0]).get_datasource()
+                   datasource_api, org[0]).get_datasource()
         Dashboard(directory, host_request, proxy,
                   dashboard_api, dashboard_search_api,
-                  folder_api, folder_search_api, org_name[0]).get_dashboard()
+                  folder_api, folder_search_api, org[0]).get_dashboard()
     elif args.type is False:
         if args.form is True:
             Organization(directory, host_request, proxy,
-                         org_api).post_organization()
+                         org_api, args.org_name).post_organization()
         elif args.form is False:
             Organization(directory, None, proxy, org_api,
                          host_request_basic_auth, orgs_api).post_organization()
         Datasource(directory, host_request, proxy,
-                   datasource_api).post_datasource()
+                   datasource_api, args.org_name).post_datasource()
         Dashboard(directory, host_request, proxy,
                   dashboard_api, dashboard_search_api,
-                  folder_api, folder_search_api).post_dashboard()
+                  folder_api, folder_search_api, args.org_name).post_dashboard()
 
 
 if __name__ == "__main__":

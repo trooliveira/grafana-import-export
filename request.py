@@ -35,19 +35,24 @@ class WriteRead(object):
         self.data = data
 
     def write(self):
-        print(self.directory, self.org, self.type, self.name)
+
         if self.type is None:
             dir = '{}/{}'.format(self.directory, self.name)
         else:
             dir = '{}/{}/{}'.format(self.directory, self.org, self.type)
-        print(dir)
+
         if not path.exists(dir):
             mkdir('{}'.format(dir))
         with open('{}/{}'.format(dir, '{}.json'.format(self.name), indent=True), 'w') as f:
             json.dump(self.data, f)
 
     def read(self):
-        with open('{}/{}'.format(self.directory, self.name), 'r') as f:
+        if self.type is None:
+            dir = '{}/{}'.format(self.directory, self.name)
+        else:
+            dir = '{}/{}/{}/{}'.format(self.directory,
+                                       self.org, self.type, self.name)
+        with open(dir, 'r') as f:
             raw = f.read()
             data = json.loads(raw)
         return data

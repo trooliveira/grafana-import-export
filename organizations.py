@@ -9,13 +9,14 @@ import json
 class Organization(object):
 
     def __init__(self, directory, host_request, proxy,
-                 org_api=None, host_request_basic_auth=None, orgs_api=None):
+                 org_api=None, org_name=None, host_request_basic_auth=None, orgs_api=None):
         self.host_request = host_request
         self.org_api = org_api
         self.orgs_api = orgs_api
         self.proxy = proxy
         self.host_request_basic_auth = host_request_basic_auth
         self.directory = directory
+        self.org_name = org_name
 
     def get_organization(self):
 
@@ -38,9 +39,10 @@ class Organization(object):
 
     def post_organization(self):
         # post organization
-        files = list_convert(self.directory)
+        dir = '{}/{}'.format(self.directory, self.org_name)
+        files = list_convert(dir)
         for file in files:
-            data_raw = WriteRead(self.directory, file).read()
+            data_raw = WriteRead(dir, file).read()
             data = {
                 'name': data_raw['name']
             }
