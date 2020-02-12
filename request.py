@@ -27,13 +27,20 @@ class Requests(object):
 
 class WriteRead(object):
 
-    def __init__(self, directory, name, data=None):
+    def __init__(self, directory, name, data=None, org=None, typed=None):
         self.directory = directory
         self.name = name
+        self.org = org
+        self.type = typed
         self.data = data
 
     def write(self):
-        dir = '{}/{}'.format(self.directory, self.name)
+        print(self.directory, self.org, self.type, self.name)
+        if self.type is None:
+            dir = '{}/{}'.format(self.directory, self.name)
+        else:
+            dir = '{}/{}/{}'.format(self.directory, self.org, self.type)
+        print(dir)
         if not path.exists(dir):
             mkdir('{}'.format(dir))
         with open('{}/{}'.format(dir, '{}.json'.format(self.name), indent=True), 'w') as f:

@@ -18,6 +18,8 @@ class Organization(object):
         self.directory = directory
 
     def get_organization(self):
+
+        org_list = list()
         if self.host_request_basic_auth is None:
             # organization
             # get current
@@ -29,6 +31,10 @@ class Organization(object):
                                           self.orgs_api), self.proxy).get_requests()
         for x in list(range(len(org))):
             WriteRead(self.directory, org[x]['name'], org[x]).write()
+            org_list.append(org[x]['name'])
+
+        return org_list
+
 
     def post_organization(self):
         # post organization

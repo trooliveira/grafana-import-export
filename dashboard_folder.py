@@ -12,7 +12,7 @@ class Dashboard(object):
     def __init__(self, directory,
                  host_request, proxy, dashboard_api,
                  dashboard_search_api,
-                 folder_api, folder_search_api):
+                 folder_api, folder_search_api, org_name=None):
         self.host_request = host_request
         self.dashboard_api = dashboard_api
         self.dashboard_search_api = dashboard_search_api
@@ -20,6 +20,7 @@ class Dashboard(object):
         self.folder_api = folder_api
         self.proxy = proxy
         self.directory = directory
+        self.org_name = org_name
 
     def get_dashboard(self):
         # dashboard
@@ -44,10 +45,10 @@ class Dashboard(object):
             tags['dashboard']['uid'] = 'null'
             # folder
             # get folder
-            print(tags)
+            # print(tags)
             Folders(self.directory, self.host_request, self.folder_api,
-                    self.proxy, tags['meta']['folderId']).get_folder()
-            WriteRead(self.directory, tags['meta']['slug'], tags).write()
+                    self.proxy, tags['meta']['folderId'], self.org_name).get_folder()
+            WriteRead(self.directory, tags['meta']['slug'], tags, self.org_name, 'dashboards').write()
 
     def post_dashboard(self):
         files = list_convert(self.directory)

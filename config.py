@@ -15,7 +15,7 @@ def main():
                     help='URL Grafana', required=True)
     glb.add_argument('-P', '--port', dest='port', type=str,
                     help='Port URL Grafana', required=True)
-    glb.add_argument('-d', '--dir', dest='directory', type=validate_filepath,
+    glb.add_argument('-d', '--dir', dest='directory', type=str,
                     help='Directory for backup or get restore',
                     required=True)
     glb.add_argument('--proxy', dest='proxy', type=str,
@@ -43,10 +43,10 @@ def main():
 
     args = glb.parse_args()
 
-    """ try:
+    try:
         validate_filepath(args.directory)
     except ValidationError:
-        raise ValidationError, ValueError """
+        raise ValidationError, ValueError
 
     host_port_request = '{}:{}'.format(args.host, args.port)
     try:
@@ -73,16 +73,16 @@ def main():
 
     if args.type is True:
         if args.form is True:
-            Organization(directory, host_request, proxy, org_api).get_organization()
+            org_name = Organization(directory, host_request, proxy, org_api).get_organization()
         elif args.form is False:
-            Organization(directory, None, proxy, org_api,
+            org_name = Organization(directory, None, proxy, org_api,
                          host_request_basic_auth, orgs_api).get_organization()
 
         Datasource(directory, host_request, proxy,
-                   datasource_api).get_datasource()
+                   datasource_api, org_name[0]).get_datasource()
         Dashboard(directory, host_request, proxy,
                   dashboard_api, dashboard_search_api,
-                  folder_api, folder_search_api).get_dashboard()
+                  folder_api, folder_search_api, org_name[0]).get_dashboard()
     elif args.type is False:
         if args.form is True:
             Organization(directory, host_request, proxy,
